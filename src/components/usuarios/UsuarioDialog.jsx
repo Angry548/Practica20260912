@@ -8,7 +8,7 @@ import {
 import { usuarioSchema } from '../../schemas/usuario.schema';
 
 export default function UsuarioDialog({ open, onClose, onSave, usuario }) {
-  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({
+  const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm({
     resolver: zodResolver(usuarioSchema),
     defaultValues: {
       nombre: '',
@@ -17,6 +17,8 @@ export default function UsuarioDialog({ open, onClose, onSave, usuario }) {
       rol: 'MANTENIMIENTO'
     }
   });
+
+  const selectedRol = watch('rol');
 
   useEffect(() => {
     if (usuario) {
@@ -35,7 +37,11 @@ export default function UsuarioDialog({ open, onClose, onSave, usuario }) {
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>{usuario ? 'Editar Usuario' : 'Nuevo Usuario'}</DialogTitle>
+      {/* Título corregido con color oscuro explícito */}
+      <DialogTitle sx={{ color: '#111827', fontWeight: 'bold' }}>
+        {usuario ? 'Editar Usuario' : 'Nuevo Usuario'}
+      </DialogTitle>
+      
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
           <TextField
@@ -69,7 +75,7 @@ export default function UsuarioDialog({ open, onClose, onSave, usuario }) {
             fullWidth
             margin="normal"
             label="Rol"
-            defaultValue="MANTENIMIENTO"
+            value={selectedRol || 'MANTENIMIENTO'}
             {...register('rol')}
             error={!!errors.rol}
             helperText={errors.rol?.message}
@@ -79,7 +85,7 @@ export default function UsuarioDialog({ open, onClose, onSave, usuario }) {
           </TextField>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={onClose}>Cancelar</Button>
+          <Button onClick={onClose} color="inherit">Cancelar</Button>
           <Button type="submit" variant="contained">
             Guardar
           </Button>
