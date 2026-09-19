@@ -33,7 +33,9 @@ export default function Login() {
 
       navigate('/estudiantes');
     } catch (err) {
-      setErrorMsg(err.response?.data?.mensaje || 'Credenciales inválidas o error de conexión');
+      setErrorMsg(
+        err.response?.data?.mensaje || err.message || 'Credenciales inválidas o error de conexión'
+      );
     }
   };
 
@@ -41,7 +43,14 @@ export default function Login() {
     <Container maxWidth="xs" sx={{ height: '100vh', display: 'flex', alignItems: 'center' }}>
       <Card sx={{ width: '100%', boxShadow: 3 }}>
         <CardContent sx={{ p: 4 }}>
-          <Typography variant="h5" component="h1" align="center" gutterBottom fontWeight="bold">
+          <Typography 
+            variant="h5" 
+            component="h1" 
+            align="center" 
+            gutterBottom 
+            fontWeight="bold"
+            sx={{ color: '#111827' }}
+          >
             Iniciar Sesión
           </Typography>
 
@@ -58,7 +67,6 @@ export default function Login() {
               label="Correo Electrónico"
               type="email"
               autoComplete="email"
-              autoFocus
               {...register('email')}
               error={!!errors.email}
               helperText={errors.email?.message}

@@ -35,7 +35,11 @@ export default function EstudianteDialog({ open, onClose, onSave, estudiante }) 
 
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-            <DialogTitle>{estudiante ? 'Editar Estudiante' : 'Nuevo Estudiante'}</DialogTitle>
+            {/* Título con color oscuro explícito */}
+            <DialogTitle sx={{ color: '#111827', fontWeight: 'bold' }}>
+                {estudiante ? 'Editar Estudiante' : 'Nuevo Estudiante'}
+            </DialogTitle>
+            
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
                 <DialogContent>
                     <TextField
@@ -68,13 +72,13 @@ export default function EstudianteDialog({ open, onClose, onSave, estudiante }) 
                         margin="normal"
                         label="Edad"
                         type="number"
-                        {...register('edad')}
+                        {...register('edad', { valueAsNumber: true })}
                         error={!!errors.edad}
                         helperText={errors.edad?.message}
                     />
                 </DialogContent>
                 <DialogActions sx={{ px: 3, pb: 2 }}>
-                    <Button onClick={onClose}>Cancelar</Button>
+                    <Button onClick={onClose} color="inherit">Cancelar</Button>
                     <Button type="submit" variant="contained">
                         Guardar
                     </Button>

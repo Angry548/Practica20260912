@@ -33,7 +33,11 @@ export default function CursoDialog({ open, onClose, onSave, curso }) {
 
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-            <DialogTitle>{curso ? 'Editar Curso' : 'Nuevo Curso'}</DialogTitle>
+            {/* Título corregido con color oscuro explícito */}
+            <DialogTitle sx={{ color: '#111827', fontWeight: 'bold' }}>
+                {curso ? 'Editar Curso' : 'Nuevo Curso'}
+            </DialogTitle>
+            
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
                 <DialogContent>
                     <TextField
@@ -57,13 +61,13 @@ export default function CursoDialog({ open, onClose, onSave, curso }) {
                         margin="normal"
                         label="Créditos"
                         type="number"
-                        {...register('creditos')}
+                        {...register('creditos', { valueAsNumber: true })}
                         error={!!errors.creditos}
                         helperText={errors.creditos?.message}
                     />
                 </DialogContent>
                 <DialogActions sx={{ px: 3, pb: 2 }}>
-                    <Button onClick={onClose}>Cancelar</Button>
+                    <Button onClick={onClose} color="inherit">Cancelar</Button>
                     <Button type="submit" variant="contained">
                         Guardar
                     </Button>
