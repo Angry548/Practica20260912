@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createHashRouter, Navigate } from 'react-router-dom';
 
 import MainLayout from '../components/MainLayout';
 import ProtectedRoute from '../components/ProtectedRoute';
@@ -7,7 +7,7 @@ import Usuarios from '../pages/Usuarios';
 import Estudiantes from '../pages/Estudiantes';
 import Cursos from '../pages/Cursos';
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/login',
     element: <Login />,

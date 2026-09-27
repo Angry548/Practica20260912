@@ -12,10 +12,12 @@ api.interceptors.request.use((config) => {
     config.headers['x-use-cookie'] = 'true';
   } else {
     const token = localStorage.getItem('token');
+
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
   }
+
   return config;
 });
 
@@ -23,17 +25,22 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Si la API responde con 401 (No autorizado) o 403 (Prohibido/Token expirado)
-    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+    // Si la API responde con 401 (No autorizado)
+    // o 403 (Prohibido / Token expirado)
+    if (
+      error.response &&
+      (error.response.status === 401 || error.response.status === 403)
+    ) {
       // Limpiar la sesión local
       localStorage.removeItem('token');
       localStorage.removeItem('user');
 
-      // Evitar bucle infinito si la petición que falló ya era la de /login
-      if (!window.location.pathname.includes('/login')) {
-        window.location.href = '/login';
+      // Evitar bucle infinito si ya estamos en la ruta de login
+      if (!window.location.hash.includes('/login')) {
+        window.location.hash = '#/login';
       }
     }
+
     return Promise.reject(error);
   }
 );
